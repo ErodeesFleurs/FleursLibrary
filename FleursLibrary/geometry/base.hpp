@@ -1,8 +1,7 @@
 #ifndef FLEURS_BASE_HPP
 #define FLEURS_BASE_HPP 1
 
-#include<bits/stdc++.h>
-
+#include <math.h>
 namespace fleurs {
     using Real = double; // Change it to long double if you need more precision
 
