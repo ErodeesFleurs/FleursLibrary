@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "circle": "cpp"
+    },
+    "python.analysis.typeCheckingMode": "basic"
+}
