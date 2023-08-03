@@ -1,7 +1,7 @@
 #ifndef FLEURS_SEGMENT_HPP
 #define FLEURS_SEGMENT_HPP 1
 
-#include<FleursLibrary/geometry/point>
+#include<FleursLibrary/geometry/line>
 
 namespace fleurs {
 

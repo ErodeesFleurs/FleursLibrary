@@ -100,7 +100,7 @@ struct Polygon{
         }
         return res / (3 * a);
     }
-    bool isIntersect(const Segment<T>& s) const {
+    bool intersect(const Segment<T>& s) const {
         for (size_t i = 0; i < points.size(); ++i) {
             Segment<T> t(points[i], points[(i + 1) % points.size()]);
             if (t.intersect(s)) {
@@ -109,7 +109,7 @@ struct Polygon{
         }
         return false;
     }
-    bool isIntersect(const Line<T>& l) const {
+    bool intersect(const Line<T>& l) const {
         for (size_t i = 0; i < points.size(); ++i) {
             Segment<T> s(points[i], points[(i + 1) % points.size()]);
             if (s.intersect(l)) {
@@ -118,10 +118,10 @@ struct Polygon{
         }
         return false;
     }
-    bool isIntersect(const Circle<T>& c) const {
+    bool intersect(const Circle<T>& c) const {
         for (size_t i = 0; i < points.size(); ++i) {
             Segment<T> s(points[i], points[(i + 1) % points.size()]);
-            if (c.intersect(s)) {
+            if (s.intersect(c)) {
                 return true;
             }
         }
@@ -138,8 +138,9 @@ struct Polygon{
             }
             qs.push_back(ps[i]);
         }
+        int limit = qs.size();
         for (size_t i = ps.size() - 1; i > 0; --i) {
-            while (qs.size() > 1 && (qs[qs.size() - 1] - qs[qs.size() - 2]).cross(ps[i - 1] - qs[qs.size() - 1]) <= 0) {
+            while (qs.size() > limit && (qs[qs.size() - 1] - qs[qs.size() - 2]).cross(ps[i - 1] - qs[qs.size() - 1]) <= 0) {
                 qs.pop_back();
             }
             qs.push_back(ps[i - 1]);

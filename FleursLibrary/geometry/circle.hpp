@@ -44,16 +44,16 @@ struct Circle {
     bool contains(const Circle<T>& c) const {
         return equals((c.center - center).abs() + c.radius, radius);
     }
-    bool intersects(const Circle<T>& c) const {
+    bool isIntersect(const Circle<T>& c) const {
         return !contains(c) && !c.contains(*this) && (center - c.center).abs() <= radius + c.radius;
     }
-    bool intersects(const Point<T>& p) const {
+    bool isIntersect(const Point<T>& p) const {
         return equals((p - center).abs(), radius);
     }
-    bool intersects(const Segment<T>& s) const {
+    bool isIntersect(const Segment<T>& s) const {
         return (s.a - center).abs() <= radius || (s.b - center).abs() <= radius || (center - s.a).abs() <= radius && (center - s.b).abs() <= radius && s.distance(center) <= radius;
     }
-    bool intersects(const Line<T>& l) const {
+    bool isIntersect(const Line<T>& l) const {
         return l.distance(center) <= radius;
     }
     std::pair<Point<T>, Point<T>> getCrossPoints(const Circle<T>& c) const {
@@ -66,12 +66,12 @@ struct Circle {
         return std::make_pair(p + q, p - q);
     }
     std::pair<Point<T>, Point<T>> getCrossPoints(const Point<T>& p) const {
+        if (!isIntersect(p)) return std::make_pair(Point<T>(0, 0), Point<T>(0, 0));
         Point<T> a = p - center;
-        T d = a.abs();
-        T e = sqrt(square(d) - square(radius));
-        Point<T> p = center + a * (radius / d);
-        Point<T> q = Point<T>(e * (p.y - center.y) / d, e * (p.x - center.x) / d);
-        return std::make_pair(p + q, p - q);
+        T b = sqrt(square(radius) - square(a.abs()));
+        Point<T> p1 = center + a * (b / a.abs());
+        Point<T> p2 = center + a * (-b / a.abs());
+        return std::make_pair(p1, p2);
     }
     std::pair<Point<T>, Point<T>> getCrossPoints(const Line<T>& p) const {
         Point<T> a = p.b - p.a;
@@ -104,12 +104,12 @@ struct Circle {
         return std::make_pair(p.a + a * t1, p.a + a * t2);
     }
     std::pair<Point<T>, Point<T>> getTangentPoints(const Point<T>& p) const {
+        if (!isIntersect(p)) return std::make_pair(Point<T>(0, 0), Point<T>(0, 0));
         Point<T> a = p - center;
-        T d = a.abs();
-        T e = sqrt(square(d) - square(radius));
-        Point<T> p = center + a * (radius / d);
-        Point<T> q = Point<T>(e * (p.y - center.y) / d, e * (p.x - center.x) / d);
-        return std::make_pair(p + q, p - q);
+        T b = sqrt(square(radius) - square(a.abs()));
+        Point<T> p1 = center + a * (b / a.abs());
+        Point<T> p2 = center + a * (-b / a.abs());
+        return std::make_pair(p1, p2);
     }
     std::pair<Point<T>, Point<T>> getTangentPoints(const Circle<T>& c) const {
         Point<T> a = c.center - center;

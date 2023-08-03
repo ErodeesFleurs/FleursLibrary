@@ -1,7 +1,8 @@
 #ifndef FLEURS_POINT_HPP
 #define FLEURS_POINT_HPP 1
 
-#include<bits/stdc++.h>
+#include<iostream>
+#include<math.h>
 #include<FleursLibrary/geometry/base>
 
 namespace fleurs {
