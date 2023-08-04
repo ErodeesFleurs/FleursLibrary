@@ -95,7 +95,9 @@
         "valarray": "cpp",
         "variant": "cpp",
         "base.hpp": "c",
-        "math.h": "c"
+        "math.h": "c",
+        "acautomaton": "c",
+        "acautomaton.hpp": "c"
     },
     "python.analysis.typeCheckingMode": "basic"
 }
