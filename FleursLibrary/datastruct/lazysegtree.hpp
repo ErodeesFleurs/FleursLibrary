@@ -22,6 +22,8 @@ struct lazysegtree {
         for(int i = 0; i != 64; i++) {
             if(x >> i & 1) log = i;
         }
+        // If gcc
+        // log = __builtin_ctz(x);
         d = std::vector<S>(2 * size, e());
         lz = std::vector<F>(size, id());
         for (int i = 0; i < n; i++) d[size + i] = v[i];
