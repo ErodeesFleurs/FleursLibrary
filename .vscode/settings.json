@@ -98,7 +98,8 @@
         "math.h": "c",
         "acautomaton": "c",
         "acautomaton.hpp": "c",
-        "modint": "cpp"
+        "modint": "cpp",
+        "cassert": "cpp"
     },
     "python.analysis.typeCheckingMode": "basic"
 }
