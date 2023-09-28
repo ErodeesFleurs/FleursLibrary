@@ -11,58 +11,44 @@ template <typename T> struct Dynamicupperhull {
 
   Dynamicupperhull() = default;
   Dynamicupperhull(const std::set<Point<T>> &points) : points(points) {}
-  Dynamicupperhull(const Dynamicupperhull<T> &p) : points(p.points) {}
 
-  std::set<Point<T>>::iterator Prev(std::set<Point<T>>::iterator it) {
-    if (it == points.begin()) {
-      return points.end();
-    }
-    return --it;
+  auto Prev(auto it) const {
+    return (it == points.begin()) ? points.end() : std::prev(it);
   }
-  std::set<Point<T>>::iterator Next(std::set<Point<T>>::iterator it) {
-    ++it;
-    if (it == points.end()) {
-      return points.begin();
-    }
-    return it;
+
+  auto Next(auto it) const {
+    return (std::next(it) == points.end()) ? points.begin() : std::next(it);
   }
-  bool isInside(Point<T> p) {
+  bool isInside(const Point<T> &p) const {
     if (points.size() < 3)
       return false;
     auto it = points.lower_bound(p);
-    if (it == points.end())
-      it = points.begin();
-    if (it == points.begin())
-      return false;
+    it = (it == points.end()) ? points.begin() : it;
     return (p - (*Prev(it))).cross((*it) - (*Prev(it))) < EPS;
   }
-  void addPoint(Point<T> p) {
+  void addPoint(const Point<T> &p) {
     if (isInside(p))
       return;
     auto it = points.lower_bound(p);
-    if (it == points.end())
-      it = points.begin();
+    it = (it == points.end()) ? points.begin() : it;
+
     while (points.size() >= 2 &&
            (p - (*Prev(it))).cross((*it) - (*Prev(it))) > EPS) {
-      points.erase(it);
-      it = points.lower_bound(p);
-      if (it == points.end())
-        it = points.begin();
+      it = points.erase(it);
+      it = (it == points.end()) ? points.begin() : it;
     }
     points.insert(p);
   }
-  void erasePoint(Point<T> p) {
+  void erasePoint(const Point<T> &p) {
     if (!isInside(p))
       return;
     auto it = points.lower_bound(p);
-    if (it == points.end())
-      it = points.begin();
+    it = (it == points.end()) ? points.begin() : it;
+
     while (points.size() >= 2 &&
            (p - (*Prev(it))).cross((*it) - (*Prev(it))) < -EPS) {
-      points.erase(it);
-      it = points.lower_bound(p);
-      if (it == points.end())
-        it = points.begin();
+      it = points.erase(it);
+      it = (it == points.end()) ? points.begin() : it;
     }
     points.erase(it);
   }
